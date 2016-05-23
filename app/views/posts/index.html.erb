@@ -1,8 +1,9 @@
 <div class="col-lg-8">
   <% @posts.each do |post| %>
     <div class="article">
-      <h2><%= post.title %></h2>
-      <p><%= post.created_at %></p>
+      <h2>タイトル：<%= post.title %></h2>
+      <p>カテゴリ：<%= post.category %></p>
+      <p>作成日：<%= post.created_at %></p>
       <p><%= truncate(post.body, length: 50) %></p>
       <p><a class="btn btn-default" href="/posts/<%= post.id %>" role="buttton">続きを読む</a></p>
     </div>
@@ -13,12 +14,16 @@
   <div class="thumnail">
     <img src="<%= Author.first.image_url %>" alt="著者イメージ">
     <div class="capttion">
-      <h3><%= Author.first.name %></h3>
-      <p><%= Author.first.description %></p>
+      <h3>著者名：<%= Author.first.name %></h3>
+      <p>詳細：<%= Author.first.description %></p>
     </div>
   </div>
   <div class="list-group">
-    <% @posts.each do |post| %>
+    <% @posts.each_with_index do |post, index| %>
+    <% if index >= 5
+         break
+       end
+    %>
     <a href="/posts/<%= post.id %>" class="list-group-item"><%= post.title %></a>
     <% end %>
   </div>
