@@ -24,7 +24,9 @@
       <div class="caption">
         <h6><%= comment.created_at %></h6>
         <p><%= comment.body %></p>
-        <p><%= link_to '編集', edit_comment_path(comment), class: "btn btn-primary", role: "button" %> <%= link_to '削除', comment_path(comment), method: :delete, class: "btn btn-danger", role: "button", data: {confirm: "本当に削除しますか？"} %></p>
+          <% if author_signed_in? %>
+            <p><%= link_to '編集', edit_comment_path(comment), class: "btn btn-primary", role: "button" %> <%= link_to '削除', comment_path(comment), method: :delete, class: "btn btn-danger", role: "button", data: {confirm: "本当に削除しますか？"} %></p>
+          <% end %>
       </div>
     </div>
   </div>
