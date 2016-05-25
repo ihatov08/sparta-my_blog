@@ -11,10 +11,13 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
-    unless @post.author_id == current_author.id
-      redirect_to root_path, alert: "許可されていないページです。"
+    @comment = Comment.new
+    @comments = @post.comments
+    if author_signed_in?
+      unless @post.author_id == current_author.id
+        redirect_to root_path, alert: "許可されていないページです。"
+      end
     end
-
   end
 
   def new
@@ -22,7 +25,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
+    @post = current_author.posts.build(post_params)
     @post.save
     redirect_to "/posts/#{@post.id}"
   end
@@ -47,6 +50,6 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :body, :category)
+    params.require(:post).permit(:title, :body, :category, :author_id, :post_id)
   end
 end

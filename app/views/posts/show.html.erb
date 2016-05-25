@@ -12,5 +12,32 @@
   <a href="/posts/<%= @post.id %>" data-method="delete" class="btn btn-danger">削除する</a>
   <% else %>
   編集、削除するにはログインしてください。
+  <hr>
   <% end %>
+</div>
+
+<h3>コメント一覧</h3>
+<% @comments.each do |comment| %>
+<div class="row">
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <h6><%= comment.created_at %></h6>
+        <p><%= comment.body %></p>
+        <p><%= link_to '編集', edit_comment_path(comment), class: "btn btn-primary", role: "button" %> <%= link_to '削除', comment_path(comment), method: :delete, class: "btn btn-danger", role: "button", data: {confirm: "本当に削除しますか？"} %></p>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
+
+<div class="row">
+  <div class="col-xs-3">
+    <h4>コメント投稿</h4>
+    <%= form_for(@comment, url: { controller: :comments, action: :create }) do |f| %>
+      <%= f.hidden_field :post_id, value: @post.id  %>
+      <%= f.text_area :body, class: "form-control", row: "6" %>
+      <%= f.submit "コメントする", class: "btn btn-primary" %>
+    <% end %>
+  </div>
 </div>
