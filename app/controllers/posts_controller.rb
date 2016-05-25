@@ -1,6 +1,8 @@
 class PostsController < ApplicationController
+  before_action :authenticate_author!, only: [ :new, :edit, :create, :edit, :update, :destroy ]
   def index
-    @posts = Post.order(created_at: :desc)
+    @q = Post.order(updated_at: :desc).ransack(params[:q])
+    @posts = @q.result.page(params[:page]).per(2)
   end
 
   def show

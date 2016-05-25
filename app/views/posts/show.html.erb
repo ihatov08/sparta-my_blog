@@ -7,6 +7,10 @@
     <%= simple_format(@post.body) %>
   </p>
   <hr>
+  <% if author_signed_in? %>
   <a href="/posts/<%= @post.id %>/edit" class="btn btn-default">編集する</a>
   <a href="/posts/<%= @post.id %>" data-method="delete" class="btn btn-danger">削除する</a>
+  <% else %>
+  編集、削除するにはログインしてください。
+  <% end %>
 </div>
